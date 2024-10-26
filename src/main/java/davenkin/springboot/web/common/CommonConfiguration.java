@@ -74,7 +74,9 @@ public class CommonConfiguration {
     @Bean
     public DefaultKafkaProducerFactoryCustomizer defaultKafkaProducerFactoryCustomizer(ObjectMapper objectMapper) {
         return producerFactory -> {
-            producerFactory.setValueSerializer(new JsonSerializer<>(objectMapper));
+            JsonSerializer valueSerializer = new JsonSerializer(objectMapper);
+            valueSerializer.setAddTypeInfo(false);
+            producerFactory.setValueSerializer(valueSerializer);
         };
     }
 

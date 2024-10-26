@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryC
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
@@ -80,7 +81,7 @@ public class CommonConfiguration {
         };
     }
 
-
+    @Profile("!build")
     @Bean(destroyMethod = "stop")
     MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate,
                                                                            TaskExecutor taskExecutor,

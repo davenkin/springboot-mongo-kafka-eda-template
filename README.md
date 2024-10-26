@@ -1,6 +1,6 @@
 ### Introduction
 
-- This is a template project for event driven architecture(EDA) with MongoDB and Kafka. 
+- Demo project for event driven architecture implementation with Spring Boot, MongoDB and Kafka using transactional outbox pattern.
 
 ### How to run
 

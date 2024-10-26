@@ -31,7 +31,7 @@ public class UserControllerApiTest extends BaseApiTest {
         User user = userRepository.byId(responseId.id());
         assertEquals(createUserCommand.name(), user.getName());
 
-        UserCreatedEvent userCreatedEvent = publishingDomainEventDao.latestEventFor(user.getId(), USER_CREATED, UserCreatedEvent.class);
+        UserCreatedEvent userCreatedEvent = latestEventFor(user.getId(), USER_CREATED, UserCreatedEvent.class);
         assertEquals(user.getId(), userCreatedEvent.getArId());
     }
 
@@ -47,7 +47,7 @@ public class UserControllerApiTest extends BaseApiTest {
                 .is2xxSuccessful();
         User user = userRepository.byId(userId);
         assertEquals(updateUserNameCommand.name(), user.getName());
-        UserNameUpdatedEvent userNameUpdatedEvent = publishingDomainEventDao.latestEventFor(user.getId(), USER_NAME_UPDATED, UserNameUpdatedEvent.class);
+        UserNameUpdatedEvent userNameUpdatedEvent = latestEventFor(user.getId(), USER_NAME_UPDATED, UserNameUpdatedEvent.class);
         assertEquals(updateUserNameCommand.name(), userNameUpdatedEvent.getNewName());
         assertEquals("davenkin1", userNameUpdatedEvent.getOldName());
     }

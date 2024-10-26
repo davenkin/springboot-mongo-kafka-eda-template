@@ -20,6 +20,7 @@ import org.springframework.transaction.TransactionManager;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS;
+import static davenkin.springboot.web.common.PublishingDomainEvent.PUBLISHING_DOMAIN_EVENT_COLLECTION_NAME;
 
 @Configuration
 public class CommonConfiguration {
@@ -38,19 +39,19 @@ public class CommonConfiguration {
     }
 
     @Bean(destroyMethod = "stop")
-    MessageListenerContainer messageListenerContainer(MongoTemplate mongoTemplate) {
+    MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate) {
         MessageListenerContainer container = new DefaultMessageListenerContainer(mongoTemplate);
 
-        MessageListener<ChangeStreamDocument<Document>, ? super DomainEvent> listener = (MessageListener<ChangeStreamDocument<Document>, DomainEvent>) message -> {
+        var listener = (MessageListener<ChangeStreamDocument<Document>, PublishingDomainEvent>) message -> {
             System.out.println(message.getBody());
         };
 
-        ChangeStreamRequest<? super DomainEvent> request = ChangeStreamRequest.builder(listener)
-                .collection(DomainEvent.DOMAIN_EVENT_COLLECTION_NAME)
+        ChangeStreamRequest<? super PublishingDomainEvent> request = ChangeStreamRequest.builder(listener)
+                .collection(PUBLISHING_DOMAIN_EVENT_COLLECTION_NAME)
                 .filter(new Document("$match", new Document("operationType", OperationType.INSERT.getValue())))
                 .build();
 
-        container.register(request, DomainEvent.class);
+        container.register(request, PublishingDomainEvent.class);
         container.start();
         return container;
     }

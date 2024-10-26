@@ -9,13 +9,12 @@ import davenkin.springboot.web.user.domain.event.UserNameUpdatedEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-import static davenkin.springboot.web.common.DomainEvent.DOMAIN_EVENT_COLLECTION_NAME;
 import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
 import static lombok.AccessLevel.PROTECTED;
+
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
@@ -29,11 +28,9 @@ import static lombok.AccessLevel.PROTECTED;
 })
 
 @Getter
-@Document(DOMAIN_EVENT_COLLECTION_NAME)
-@NoArgsConstructor(access = PROTECTED)
 @FieldNameConstants
+@NoArgsConstructor(access = PROTECTED)
 public abstract class DomainEvent {
-    public static final String DOMAIN_EVENT_COLLECTION_NAME = "domain_event";
 
     private String id;
     private String arId;

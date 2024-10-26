@@ -69,7 +69,7 @@ public abstract class MongoBaseRepository<AR extends AggregateRoot> {
 
     private void saveEvents(List<DomainEvent> events) {
         if (!isEmpty(events)) {
-            domainEventDao.insert(events);
+            domainEventDao.stage(events);
         }
     }
 }

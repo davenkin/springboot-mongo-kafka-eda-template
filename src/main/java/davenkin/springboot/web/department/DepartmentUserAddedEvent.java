@@ -9,7 +9,7 @@ import static davenkin.springboot.web.common.DomainEventType.DEPARTMENT_USER_ADD
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
-@TypeAlias("DEPARTMENT_USER_ADDED_EVENT")
+@TypeAlias("department_user_added_event")
 @NoArgsConstructor(access = PRIVATE)
 public class DepartmentUserAddedEvent extends DomainEvent {
     private String userId;

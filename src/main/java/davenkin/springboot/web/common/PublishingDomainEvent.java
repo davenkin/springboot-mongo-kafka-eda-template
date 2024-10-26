@@ -6,6 +6,8 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+
 import static davenkin.springboot.web.common.DomainEventPublishStatus.CREATED;
 import static davenkin.springboot.web.common.PublishingDomainEvent.PUBLISHING_DOMAIN_EVENT_COLLECTION_NAME;
 import static lombok.AccessLevel.PRIVATE;
@@ -26,10 +28,13 @@ public class PublishingDomainEvent {
 
     private int publishedCount;
 
+    private Instant raisedAt;
+
     public PublishingDomainEvent(DomainEvent event) {
         this.id = event.getId();
         this.event = event;
         this.status = CREATED;
         this.publishedCount = 0;
+        this.raisedAt = event.getRaisedAt();
     }
 }

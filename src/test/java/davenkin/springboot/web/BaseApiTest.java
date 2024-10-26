@@ -4,6 +4,7 @@ import davenkin.springboot.web.common.DomainEvent;
 import davenkin.springboot.web.common.DomainEventType;
 import davenkin.springboot.web.common.PublishingDomainEvent;
 import davenkin.springboot.web.common.PublishingDomainEventDao;
+import davenkin.springboot.web.department.DepartmentApplicationService;
 import davenkin.springboot.web.user.command.UserCommandService;
 import davenkin.springboot.web.user.infrastructure.UserRepository;
 import org.junit.jupiter.api.parallel.Execution;
@@ -43,6 +44,9 @@ public abstract class BaseApiTest {
     @Autowired
     protected UserCommandService userCommandService;
 
+    @Autowired
+    protected DepartmentApplicationService departmentApplicationService;
+
     protected <T extends DomainEvent> T latestEventFor(String arId, DomainEventType type, Class<T> eventClass) {
         requireNonBlank(arId, "AR ID must not be blank.");
         requireNonNull(type, "Domain event type must not be null.");
@@ -50,7 +54,7 @@ public abstract class BaseApiTest {
 
         Query query = query(where(PublishingDomainEvent.Fields.event + "." + DomainEvent.Fields.arId).is(arId)
                 .and(PublishingDomainEvent.Fields.event + "." + DomainEvent.Fields.type).is(type))
-                .with(by(DESC, PublishingDomainEvent.Fields.event + "." + DomainEvent.Fields.raisedAt));
+                .with(by(DESC, PublishingDomainEvent.Fields.raisedAt));
         return (T) mongoTemplate.findOne(query, PublishingDomainEvent.class).getEvent();
     }
 }

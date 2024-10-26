@@ -10,16 +10,16 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
-import static davenkin.springboot.web.user.domain.User.USER_COLLECTION_NAME;
+import static davenkin.springboot.web.user.domain.User.USER_AR_NAME;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @FieldNameConstants
-@Document(USER_COLLECTION_NAME)
-@TypeAlias(USER_COLLECTION_NAME)
+@Document(USER_AR_NAME)
+@TypeAlias(USER_AR_NAME)
 @NoArgsConstructor(access = PRIVATE)
 public class User extends AggregateRoot {
-    public static final String USER_COLLECTION_NAME = "user";
+    public static final String USER_AR_NAME = "user";
 
     private String name;
 

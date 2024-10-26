@@ -12,16 +12,16 @@ import java.util.List;
 
 import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
 import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
-import static davenkin.springboot.web.department.Department.DEPARTMENT_COLLECTION_NAME;
+import static davenkin.springboot.web.department.Department.DEPARTMENT_AR_NAME;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @FieldNameConstants
-@Document(DEPARTMENT_COLLECTION_NAME)
-@TypeAlias(DEPARTMENT_COLLECTION_NAME)
+@Document(DEPARTMENT_AR_NAME)
+@TypeAlias(DEPARTMENT_AR_NAME)
 @NoArgsConstructor(access = PRIVATE)
 public class Department extends AggregateRoot {
-    public static final String DEPARTMENT_COLLECTION_NAME = "department";
+    public static final String DEPARTMENT_AR_NAME = "department";
 
     private String name;
     private List<String> userIds;
@@ -42,6 +42,5 @@ public class Department extends AggregateRoot {
         this.userIds.add(userId);
         this.raiseEvent(new DepartmentUserAddedEvent(userId));
     }
-
 
 }

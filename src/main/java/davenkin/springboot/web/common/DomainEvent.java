@@ -52,4 +52,8 @@ public abstract class DomainEvent {
     public static String newEventId() {
         return "EVT" + newSnowflakeId();
     }
+
+    public String arName() {
+        return this.type.getArName();
+    }
 }

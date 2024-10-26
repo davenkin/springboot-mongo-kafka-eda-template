@@ -31,16 +31,16 @@ public class DomainEventPublisher {
 
     private final TaskExecutor taskExecutor;
 
-    public int publishStagedDomainEvents() {
+    public void publishStagedDomainEvents() {
         try {
-            //通过分布式锁保证只有一个publisher工作，以此保证消息发送的顺序
-            LockingTaskExecutor.TaskResult<Integer> result = lockingTaskExecutor.executeWithLock(this::doPublishStagedDomainEvents,
+            // Use a distributed lock to ensure only one node get run as a time, otherwise it may easily result in duplicated events
+            var result = lockingTaskExecutor.executeWithLock(this::doPublishStagedDomainEvents,
                     new LockConfiguration(now(), "publish-domain-events", ofMinutes(1), ofMillis(1)));
             Integer publishedCount = result.getResult();
-            return publishedCount != null ? publishedCount : 0;
+            int count = publishedCount != null ? publishedCount : 0;
+            log.debug("Published {} domain events.", count);
         } catch (Throwable e) {
             log.error("Error happened while publish domain events.", e);
-            return 0;
         }
     }
 
@@ -57,7 +57,7 @@ public class DomainEventPublisher {
             }
 
             for (DomainEvent event : domainEvents) {
-                CompletableFuture<SendResult<String, DomainEvent>> future = this.kafkaTemplate.send("domain-event", event.getArId(), event)
+                var future = this.kafkaTemplate.send(event.arName() + "_domain_event", event.getArId(), event)
                         .whenCompleteAsync((result, ex) -> {
                             String eventId = result.getProducerRecord().value().getId();
                             if (ex == null) {
@@ -75,7 +75,7 @@ public class DomainEventPublisher {
                 break;
             }
 
-            startEventId = domainEvents.get(domainEvents.size() - 1).getId(); // Start ID for next batch
+            startEventId = domainEvents.get(domainEvents.size() - 1).getId(); // Start event ID for next batch
         }
 
         futures.forEach(CompletableFuture::join);

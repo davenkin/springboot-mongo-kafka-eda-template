@@ -5,20 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.ZonedDateTime;
-
-import static java.time.ZonedDateTime.now;
+import java.time.Instant;
 
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
 public class AboutController {
-    private final ZonedDateTime deployTime = now();
+    private final Instant deployTime = Instant.now();
 
     @GetMapping(value = "/about")
     public QAboutInfo about() {
         String deployTime = this.deployTime.toString();
-
         return QAboutInfo.builder()
                 .deployTime(deployTime)
                 .build();

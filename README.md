@@ -10,3 +10,6 @@
 ### Tech stack
 
 - Spring Boot 3.3.5
+- Spring Data Mongodb 4.3.5
+- Spring Kafka 3.2.4
+- Kafka Client 3.7.1

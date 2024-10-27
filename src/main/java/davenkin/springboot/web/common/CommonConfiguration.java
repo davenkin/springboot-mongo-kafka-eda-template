@@ -76,7 +76,10 @@ public class CommonConfiguration {
     public DefaultKafkaProducerFactoryCustomizer defaultKafkaProducerFactoryCustomizer(ObjectMapper objectMapper) {
         return producerFactory -> {
             JsonSerializer valueSerializer = new JsonSerializer(objectMapper);
+
+            // Do not add __TypeId__ in the header as we don't want to rely on Kafka for later deserialization hence decrease coupling to Kafka
             valueSerializer.setAddTypeInfo(false);
+
             producerFactory.setValueSerializer(valueSerializer);
         };
     }

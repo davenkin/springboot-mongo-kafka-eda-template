@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
+import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -18,6 +19,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public abstract class AggregateRoot {
     private String id;
+
+    private AggregateRootType type;
 
     // Domain events are stored temporarily in the aggregate root
     // Domain events are not persisted together with the aggregate roots as events will be stored in separately
@@ -29,18 +32,22 @@ public abstract class AggregateRoot {
 
     @Version
     @Getter(PRIVATE)
-    private Long _version;
+    private Long version;
 
-    protected AggregateRoot(String id) {
+    protected AggregateRoot(String id, AggregateRootType type) {
         requireNonBlank(id, "ID must not be blank.");
+        requireNonNull(type, "Type must not be null.");
 
         this.id = id;
+        this.type = type;
         this.createdAt = Instant.now();
     }
 
     // raiseEvent() only stores events in aggregate root temporarily, the events will be persisted into DB by Repository
     // The actual sending of events to Kafka is handled by DomainEventPublisher
     protected void raiseEvent(DomainEvent event) {
+        requireNonNull(event.getType(), "Domain event type must not be null.");
+
         event.setArId(this.id);
         events().add(event);
     }

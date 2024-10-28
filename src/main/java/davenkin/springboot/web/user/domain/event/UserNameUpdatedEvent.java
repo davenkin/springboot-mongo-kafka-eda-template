@@ -9,7 +9,7 @@ import static davenkin.springboot.web.common.DomainEventType.USER_NAME_UPDATED;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
-@TypeAlias("user_name_updated_event")
+@TypeAlias("USER_NAME_UPDATED_EVENT")
 @NoArgsConstructor(access = PRIVATE)
 public class UserNameUpdatedEvent extends DomainEvent {
     private String oldName;

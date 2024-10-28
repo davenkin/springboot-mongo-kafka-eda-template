@@ -9,7 +9,6 @@ import davenkin.springboot.web.user.domain.event.UserNameUpdatedEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
@@ -29,7 +28,6 @@ import static lombok.AccessLevel.PROTECTED;
 })
 
 @Getter
-@Document
 @FieldNameConstants
 @NoArgsConstructor(access = PROTECTED)
 public abstract class DomainEvent {
@@ -37,11 +35,15 @@ public abstract class DomainEvent {
     private String id;
     private String arId;
     private DomainEventType type;
+
+    private AggregateRootType arType;
+
     private Instant raisedAt;
 
     protected DomainEvent(DomainEventType type) {
         this.id = newEventId();
         this.type = type;
+        this.arType = type.getArType();
         this.raisedAt = Instant.now();
     }
 
@@ -53,7 +55,4 @@ public abstract class DomainEvent {
         return "EVT" + newSnowflakeId();
     }
 
-    public String arName() {
-        return this.type.getArName();
-    }
 }

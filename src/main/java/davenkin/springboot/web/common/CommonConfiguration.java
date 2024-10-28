@@ -10,14 +10,17 @@ import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.core.LockingTaskExecutor;
 import net.javacrumbs.shedlock.provider.mongo.MongoLockProvider;
 import org.bson.Document;
+import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryCustomizer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.annotation.Persistent;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoManagedTypes;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
@@ -31,11 +34,19 @@ import org.springframework.transaction.TransactionManager;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS;
-import static davenkin.springboot.web.common.Constants.SHEDLOCK_COLLECTION_NAME;
-import static davenkin.springboot.web.common.PublishingDomainEvent.PUBLISHING_DOMAIN_EVENT_COLLECTION_NAME;
+import static davenkin.springboot.web.common.Constants.PUBLISHING_DOMAIN_EVENT_COLLECTION;
+import static davenkin.springboot.web.common.Constants.SHEDLOCK_COLLECTION;
 
 @Configuration
 public class CommonConfiguration {
+
+    // Make all @Persistent(including @Document and @TypeAlias) annotated class to be managed by Mongo,
+    // otherwise only @Document annotated classes will be considered as the default behavior
+    @Bean
+    MongoManagedTypes mongoManagedTypes(ApplicationContext applicationContext) throws ClassNotFoundException {
+        return MongoManagedTypes.fromIterable(new EntityScanner(applicationContext).scan(Persistent.class));
+    }
+
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomizer() {
         return builder -> {
@@ -58,13 +69,13 @@ public class CommonConfiguration {
         executor.setMaxPoolSize(50);
         executor.setQueueCapacity(500);
         executor.initialize();
-        executor.setThreadNamePrefix("shared-");
+        executor.setThreadNamePrefix("default-");
         return executor;
     }
 
     @Bean
     public LockProvider lockProvider(MongoTemplate mongoTemplate) {
-        return new MongoLockProvider(mongoTemplate.getCollection(SHEDLOCK_COLLECTION_NAME));
+        return new MongoLockProvider(mongoTemplate.getCollection(SHEDLOCK_COLLECTION));
     }
 
     @Bean
@@ -84,7 +95,7 @@ public class CommonConfiguration {
         };
     }
 
-    @Profile("!build")
+    @NonBuildProfile
     @Bean(destroyMethod = "stop")
     MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate,
                                                                            TaskExecutor taskExecutor,
@@ -96,7 +107,7 @@ public class CommonConfiguration {
         };
 
         ChangeStreamRequest<? super PublishingDomainEvent> request = ChangeStreamRequest.builder(listener)
-                .collection(PUBLISHING_DOMAIN_EVENT_COLLECTION_NAME)
+                .collection(PUBLISHING_DOMAIN_EVENT_COLLECTION)
                 .filter(new Document("$match", new Document("operationType", OperationType.INSERT.getValue())))
                 .build();
 

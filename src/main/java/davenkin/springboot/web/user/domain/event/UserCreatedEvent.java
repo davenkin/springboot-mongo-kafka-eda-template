@@ -9,7 +9,7 @@ import static davenkin.springboot.web.common.DomainEventType.USER_CREATED;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
-@TypeAlias("user_created_event")
+@TypeAlias("USER_CREATED_EVENT")
 @NoArgsConstructor(access = PRIVATE)
 public class UserCreatedEvent extends DomainEvent {
     private String name;

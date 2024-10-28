@@ -10,24 +10,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
+import static davenkin.springboot.web.common.AggregateRootType.DEPARTMENT;
 import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
+import static davenkin.springboot.web.common.Constants.DEPARTMENT_COLLECTION;
 import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
-import static davenkin.springboot.web.department.Department.DEPARTMENT_AR_NAME;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @FieldNameConstants
-@Document(DEPARTMENT_AR_NAME)
-@TypeAlias(DEPARTMENT_AR_NAME)
+@Document(DEPARTMENT_COLLECTION)
+@TypeAlias("DEPARTMENT")
 @NoArgsConstructor(access = PRIVATE)
 public class Department extends AggregateRoot {
-    public static final String DEPARTMENT_AR_NAME = "department";
 
     private String name;
     private List<String> userIds;
 
     public Department(String name) {
-        super(newDepartmentId());
+        super(newDepartmentId(), DEPARTMENT);
         this.name = name;
         this.userIds = new ArrayList<>();
         this.raiseEvent(new DepartmentCreatedEvent(name));

@@ -57,7 +57,8 @@ public class DomainEventPublisher {
             }
 
             for (DomainEvent event : domainEvents) {
-                var future = this.kafkaTemplate.send(event.arName() + "_domain_event", event.getArId(), event)
+                String topic = event.getArType().name().toLowerCase() + "_domain_event";
+                var future = this.kafkaTemplate.send(topic, event.getArId(), event)
                         .whenCompleteAsync((result, ex) -> {
                             String eventId = result.getProducerRecord().value().getId();
                             if (ex == null) {

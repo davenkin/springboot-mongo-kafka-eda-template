@@ -9,22 +9,22 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import static davenkin.springboot.web.common.AggregateRootType.USER;
+import static davenkin.springboot.web.common.Constants.USER_COLLECTION;
 import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
-import static davenkin.springboot.web.user.domain.User.USER_AR_NAME;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @FieldNameConstants
-@Document(USER_AR_NAME)
-@TypeAlias(USER_AR_NAME)
+@Document(USER_COLLECTION)
+@TypeAlias("USER")
 @NoArgsConstructor(access = PRIVATE)
 public class User extends AggregateRoot {
-    public static final String USER_AR_NAME = "user";
 
     private String name;
 
     public User(String name) {
-        super(newUserId());
+        super(newUserId(), USER);
         this.name = name;
         raiseEvent(new UserCreatedEvent(name));
     }

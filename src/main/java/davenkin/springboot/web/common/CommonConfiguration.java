@@ -95,6 +95,7 @@ public class CommonConfiguration {
         };
     }
 
+    // It's recommend to use @NonBuildProfile to disable this bean when doing a build
     // @NonBuildProfile
     @Bean(destroyMethod = "stop")
     MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate,

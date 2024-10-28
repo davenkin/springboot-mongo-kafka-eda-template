@@ -9,9 +9,11 @@ import net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor;
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.core.LockingTaskExecutor;
 import net.javacrumbs.shedlock.provider.mongo.MongoLockProvider;
+import org.apache.kafka.common.serialization.Deserializer;
 import org.bson.Document;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.autoconfigure.kafka.DefaultKafkaConsumerFactoryCustomizer;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -92,6 +94,13 @@ public class CommonConfiguration {
             valueSerializer.setAddTypeInfo(false);
 
             producerFactory.setValueSerializer(valueSerializer);
+        };
+    }
+
+    @Bean
+    public DefaultKafkaConsumerFactoryCustomizer defaultKafkaConsumerFactoryCustomizer(DomainEventJsonDeserializer deserializer) {
+        return producerFactory -> {
+            producerFactory.setValueDeserializer((Deserializer) deserializer);
         };
     }
 

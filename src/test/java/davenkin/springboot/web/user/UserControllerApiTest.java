@@ -17,7 +17,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class UserControllerApiTest extends BaseApiTest {
 
     @Test
-    public void shouldCreateUser() {
+    public void shouldCreateUser() throws InterruptedException {
         CreateUserCommand createUserCommand = CreateUserCommand.builder().name("davenkin").build();
         ResponseId responseId = this.webTestClient.post()
                 .uri("/users")
@@ -33,10 +33,11 @@ public class UserControllerApiTest extends BaseApiTest {
 
         UserCreatedEvent userCreatedEvent = latestEventFor(user.getId(), USER_CREATED, UserCreatedEvent.class);
         assertEquals(user.getId(), userCreatedEvent.getArId());
+        Thread.sleep(10000);
     }
 
     @Test
-    public void shouldUpdateUserName() {
+    public void shouldUpdateUserName() throws InterruptedException {
         String userId = this.userCommandService.createUser("davenkin1");
         UpdateUserNameCommand updateUserNameCommand = UpdateUserNameCommand.builder().name("davenkin2").build();
         this.webTestClient.put()
@@ -50,5 +51,6 @@ public class UserControllerApiTest extends BaseApiTest {
         UserNameUpdatedEvent userNameUpdatedEvent = latestEventFor(user.getId(), USER_NAME_UPDATED, UserNameUpdatedEvent.class);
         assertEquals(updateUserNameCommand.name(), userNameUpdatedEvent.getNewName());
         assertEquals("davenkin1", userNameUpdatedEvent.getOldName());
+        Thread.sleep(10000);
     }
 }

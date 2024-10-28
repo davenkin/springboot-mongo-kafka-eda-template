@@ -95,7 +95,7 @@ public class CommonConfiguration {
         };
     }
 
-    @NonBuildProfile
+    // @NonBuildProfile
     @Bean(destroyMethod = "stop")
     MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate,
                                                                            TaskExecutor taskExecutor,

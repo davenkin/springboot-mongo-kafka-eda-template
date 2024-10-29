@@ -29,6 +29,7 @@ import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
 import org.springframework.data.mongodb.core.messaging.DefaultMessageListenerContainer;
 import org.springframework.data.mongodb.core.messaging.MessageListener;
 import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.TransactionManager;
@@ -98,9 +99,9 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public DefaultKafkaConsumerFactoryCustomizer defaultKafkaConsumerFactoryCustomizer(DomainEventJsonDeserializer deserializer) {
+    public DefaultKafkaConsumerFactoryCustomizer defaultKafkaConsumerFactoryCustomizer(ObjectMapper objectMapper) {
         return producerFactory -> {
-            producerFactory.setValueDeserializer((Deserializer) deserializer);
+          producerFactory.setValueDeserializer((Deserializer) new JsonDeserializer<>(DomainEvent.class, objectMapper, false));
         };
     }
 

@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public abstract class MongoBaseRepository<AR extends AggregateRoot> {
-  private final Map<String, Class> repositoryArClassMap = new ConcurrentHashMap<>();
+  private final Map<String, Class<?>> repositoryArClassMap = new ConcurrentHashMap<>();
 
   @Autowired
   protected MongoTemplate mongoTemplate;
@@ -51,7 +51,7 @@ public abstract class MongoBaseRepository<AR extends AggregateRoot> {
     return (AR) mongoTemplate.findById(id, arClass());
   }
 
-  private Class arClass() {
+  private Class<?> arClass() {
     String className = this.getClass().getName();
 
     if (!repositoryArClassMap.containsKey(className)) {

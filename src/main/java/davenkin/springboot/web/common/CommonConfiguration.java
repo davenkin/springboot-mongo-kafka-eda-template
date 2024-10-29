@@ -101,7 +101,7 @@ public class CommonConfiguration {
     @Bean
     public DefaultKafkaConsumerFactoryCustomizer defaultKafkaConsumerFactoryCustomizer(ObjectMapper objectMapper) {
         return producerFactory -> {
-          producerFactory.setValueDeserializer((Deserializer) new JsonDeserializer<>(DomainEvent.class, objectMapper, false));
+            producerFactory.setValueDeserializer((Deserializer) new JsonDeserializer<>(DomainEvent.class, objectMapper, false));
         };
     }
 

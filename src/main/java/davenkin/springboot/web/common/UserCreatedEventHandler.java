@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserCreatedEventHandler extends AbstractTransactionalDomainEventHandler<UserCreatedEvent> {
   @Override
-  protected void doHandle(UserCreatedEvent event) {
-    log.info("Received UserCreatedEvent: {}", event.getId());
+  protected void doHandle(UserCreatedEvent domainEvent) {
+    log.info("Received UserCreatedEvent: {}", domainEvent.getId());
   }
 }

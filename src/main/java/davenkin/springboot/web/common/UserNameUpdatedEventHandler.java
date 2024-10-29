@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserNameUpdatedEventHandler extends AbstractDomainEventHandler<UserNameUpdatedEvent> {
   @Override
-  protected void doHandle(UserNameUpdatedEvent event) {
-    log.info("Received UserNameUpdatedEvent: {}", event.getId());
+  protected void doHandle(UserNameUpdatedEvent domainEvent) {
+    log.info("Received UserNameUpdatedEvent: {}", domainEvent.getId());
   }
 }

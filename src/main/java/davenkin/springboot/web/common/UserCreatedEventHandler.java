@@ -1,6 +1,8 @@
 package davenkin.springboot.web.common;
 
+import davenkin.springboot.web.user.domain.User;
 import davenkin.springboot.web.user.domain.event.UserCreatedEvent;
+import davenkin.springboot.web.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,8 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserCreatedEventHandler extends AbstractTransactionalDomainEventHandler<UserCreatedEvent> {
-    @Override
-    protected void doHandle(UserCreatedEvent domainEvent) {
-        log.info("Received UserCreatedEvent: {}", domainEvent.getId());
-    }
+  private final UserRepository userRepository;
+
+  @Override
+  protected void doHandle(UserCreatedEvent domainEvent) {
+    User user = this.userRepository.byId(domainEvent.getArId());
+    log.info("Received UserCreatedEvent for user: {}", user.getName());
+  }
 }

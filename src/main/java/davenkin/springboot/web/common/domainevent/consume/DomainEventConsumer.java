@@ -1,6 +1,5 @@
 package davenkin.springboot.web.common.domainevent.consume;
 
-import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,7 @@ import static davenkin.springboot.web.common.utils.CommonUtils.singleParameteriz
 // The entry point for handling domain event, will find the correct handler for this event and delegate to it
 @Component
 @RequiredArgsConstructor
-public class DomainEventConsumer<T extends DomainEvent> {
+public class DomainEventConsumer<T> {
     private final Map<String, Class<?>> handlerEventClassMap = new ConcurrentHashMap<>();
 
     private final List<DomainEventHandler<T>> handlers;
@@ -24,7 +23,7 @@ public class DomainEventConsumer<T extends DomainEvent> {
                 .ifPresent(handler -> handler.handle(consumingDomainEvent));
     }
 
-    private boolean canHandle(DomainEventHandler<T> handler, DomainEvent event) {
+    private boolean canHandle(DomainEventHandler<T> handler, T event) {
         String handlerClassName = handler.getClass().getSimpleName();
 
         if (!this.handlerEventClassMap.containsKey(handlerClassName)) {

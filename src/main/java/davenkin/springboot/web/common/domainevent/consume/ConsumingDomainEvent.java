@@ -1,7 +1,5 @@
 package davenkin.springboot.web.common.domainevent.consume;
 
-import davenkin.springboot.web.common.domainevent.DomainEvent;
-import davenkin.springboot.web.common.domainevent.DomainEventType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
@@ -11,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 import static davenkin.springboot.web.common.Constants.CONSUMING_DOMAIN_EVENT_COLLECTION;
+import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -21,19 +20,20 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 @Document(CONSUMING_DOMAIN_EVENT_COLLECTION)
 @TypeAlias("CONSUMING_DOMAIN_EVENT")
-public class ConsumingDomainEvent<T extends DomainEvent> {
+public class ConsumingDomainEvent<T> {
     private String id;
-    private String arId;
-    private DomainEventType type;
+    private String type;
     private Instant consumedAt;
 
     private T event;
 
-    public ConsumingDomainEvent(T event) {
-        requireNonNull(event, "Domain event must not be null.");
-        this.id = event.getId();
-        this.arId = event.getArId();
-        this.type = event.getType();
+    public ConsumingDomainEvent(String eventId, String eventType, T event) {
+        requireNonBlank(eventId, "Event ID must not be blank.");
+        requireNonBlank(eventType, "Event type must not be blank.");
+        requireNonNull(event, "Event must not be null.");
+
+        this.id = eventId;
+        this.type = eventType;
         this.consumedAt = Instant.now();
         this.event = event;
     }

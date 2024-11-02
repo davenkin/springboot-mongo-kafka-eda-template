@@ -1,6 +1,5 @@
 package davenkin.springboot.web.common.domainevent.consume;
 
-import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // For all the above handling paths, the event will also be recorded in DB as consumed to avoid deduplicated handling
 // Best practices is to stick to AbstractTransactionalDomainEventHandler and idempotent as mush as possible
 @Slf4j
-public abstract class AbstractDomainEventHandler<T extends DomainEvent> implements DomainEventHandler<T> {
+public abstract class AbstractDomainEventHandler<T> implements DomainEventHandler<T> {
 
     @Autowired
     private ConsumingDomainEventDao<T> consumingDomainEventDao;

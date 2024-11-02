@@ -1,7 +1,6 @@
 package davenkin.springboot.web.common.domainevent.consume;
 
 import com.mongodb.client.result.UpdateResult;
-import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 
 import static davenkin.springboot.web.common.Constants.MONGO_ID;
-import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.*;
+import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.consumedAt;
+import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.type;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -20,7 +20,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ConsumingDomainEventDao<T extends DomainEvent> {
+public class ConsumingDomainEventDao<T> {
     private final MongoTemplate mongoTemplate;
 
     // return true means this event has never been consumed before
@@ -28,7 +28,6 @@ public class ConsumingDomainEventDao<T extends DomainEvent> {
         Query query = query(where(MONGO_ID).is(consumingDomainEvent.getId()));
 
         Update update = new Update()
-                .setOnInsert(arId, consumingDomainEvent.getArId())
                 .setOnInsert(type, consumingDomainEvent.getType())
                 .setOnInsert(consumedAt, Instant.now());
 

@@ -21,6 +21,6 @@ public class SpringKafkaDomainEventListener {
             groupId = "changeme",
             topics = {"user_domain_event", "department_domain_event"})
     public void listen(DomainEvent event) {
-        this.domainEventConsumer.consume(new ConsumingDomainEvent<>(event));
+        this.domainEventConsumer.consume(new ConsumingDomainEvent<>(event.getId(), event.getType().name(), event));
     }
 }

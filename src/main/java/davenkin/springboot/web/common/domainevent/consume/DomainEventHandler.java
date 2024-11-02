@@ -1,8 +1,6 @@
 package davenkin.springboot.web.common.domainevent.consume;
 
-import davenkin.springboot.web.common.domainevent.DomainEvent;
-
-public interface DomainEventHandler<T extends DomainEvent> {
+public interface DomainEventHandler<T> {
 
     default boolean isIdempotent() {
         return false;

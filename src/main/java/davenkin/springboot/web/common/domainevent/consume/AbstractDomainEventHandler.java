@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 // This base event handler, before handling event it checks:
 // 1. If the event is for retry, handle the event and return;
-// 2. If the handler can be run repeatable, handle the event and return;
+// 2. If the handler can be run repeatedly, handle the event and return;
 // 3. If the event is not consumed already, handle the event and return;
 // 4. If the event is already consumed, do nothing;
-// For all the above handling paths, the event will also be recorded in DB as consumed
+// For all the above handling paths, the event will also be recorded in DB as consumed to avoid deduplicated handling
 @Slf4j
 public abstract class AbstractDomainEventHandler<T extends DomainEvent> implements DomainEventHandler<T> {
 

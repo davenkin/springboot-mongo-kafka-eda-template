@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserNameUpdatedEventHandler extends AbstractDomainEventHandler<UserNameUpdatedEvent> {
-  @Override
-  protected void doHandle(UserNameUpdatedEvent domainEvent) {
-    log.info("Received UserNameUpdatedEvent: {}", domainEvent.getId());
-  }
+    @Override
+    protected void doHandle(UserNameUpdatedEvent domainEvent) {
+        log.info("Received UserNameUpdatedEvent: {}", domainEvent.getId());
+    }
 
-  @Override
-  public boolean isRepeatable() {
-    return true;
-  }
+    @Override
+    public boolean isRepeatable() {
+        return true;
+    }
 }

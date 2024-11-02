@@ -2,10 +2,10 @@ package davenkin.springboot.web.common;
 
 public interface DomainEventHandler<T extends DomainEvent> {
 
-  // Can this handler been safely invoked multiple times for a given a domain event
-  default boolean isRepeatable() {
-    return false;
-  }
+    // Can this handler been safely invoked multiple times for a given a domain event
+    default boolean isRepeatable() {
+        return false;
+    }
 
-  void handle(T domainEvent);
+    void handle(T domainEvent);
 }

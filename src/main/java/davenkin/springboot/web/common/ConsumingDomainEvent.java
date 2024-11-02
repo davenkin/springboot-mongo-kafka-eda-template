@@ -1,15 +1,15 @@
 package davenkin.springboot.web.common;
 
-import static davenkin.springboot.web.common.Constants.CONSUMING_DOMAIN_EVENT_COLLECTION;
-import static lombok.AccessLevel.PRIVATE;
-
-import java.time.Instant;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
+
+import static davenkin.springboot.web.common.Constants.CONSUMING_DOMAIN_EVENT_COLLECTION;
+import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @FieldNameConstants
@@ -17,8 +17,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(CONSUMING_DOMAIN_EVENT_COLLECTION)
 @TypeAlias("CONSUMING_DOMAIN_EVENT")
 public class ConsumingDomainEvent {
-  private String id;
-  private String arId;
-  private DomainEventType type;
-  private Instant consumedAt;
+    private String id;
+    private String arId;
+    private DomainEventType type;
+    private Instant consumedAt;
 }

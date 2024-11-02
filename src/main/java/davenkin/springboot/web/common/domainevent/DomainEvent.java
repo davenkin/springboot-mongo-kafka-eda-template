@@ -3,8 +3,7 @@ package davenkin.springboot.web.common.domainevent;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import davenkin.springboot.web.common.model.AggregateRootType;
-import davenkin.springboot.web.department.DepartmentCreatedEvent;
-import davenkin.springboot.web.department.DepartmentUserAddedEvent;
+import davenkin.springboot.web.department.domain.event.DepartmentCreatedEvent;
 import davenkin.springboot.web.user.domain.event.UserCreatedEvent;
 import davenkin.springboot.web.user.domain.event.UserNameUpdatedEvent;
 import lombok.Getter;
@@ -26,7 +25,6 @@ import static lombok.AccessLevel.PROTECTED;
         @JsonSubTypes.Type(value = UserCreatedEvent.class, name = "USER_CREATED"),
         @JsonSubTypes.Type(value = UserNameUpdatedEvent.class, name = "USER_NAME_UPDATED"),
         @JsonSubTypes.Type(value = DepartmentCreatedEvent.class, name = "DEPARTMENT_CREATED"),
-        @JsonSubTypes.Type(value = DepartmentUserAddedEvent.class, name = "DEPARTMENT_USER_ADDED"),
 })
 
 @Getter

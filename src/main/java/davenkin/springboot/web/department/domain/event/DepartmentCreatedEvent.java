@@ -1,4 +1,4 @@
-package davenkin.springboot.web.department;
+package davenkin.springboot.web.department.domain.event;
 
 import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.Getter;

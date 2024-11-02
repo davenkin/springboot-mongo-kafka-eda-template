@@ -11,6 +11,7 @@
     - Kafka UI: [http://localhost:8070](http://localhost:8070)
 - `./mvnw spring-boot:run` and open `http://localhost:8080/about`
 - Or run `main()` in `SpringBootWebApplication` in IDE directly
+- Run all tests
 - run `./stop-docker-compose.sh` to shut down all docker containers
 
 ### Tech stack

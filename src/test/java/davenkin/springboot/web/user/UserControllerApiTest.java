@@ -2,9 +2,11 @@ package davenkin.springboot.web.user;
 
 import davenkin.springboot.web.BaseApiTest;
 import davenkin.springboot.web.common.utils.ResponseId;
+import davenkin.springboot.web.department.command.CreateDepartmentCommand;
 import davenkin.springboot.web.user.command.CreateUserCommand;
 import davenkin.springboot.web.user.command.UpdateUserNameCommand;
 import davenkin.springboot.web.user.domain.User;
+import davenkin.springboot.web.user.domain.UserReference;
 import davenkin.springboot.web.user.domain.event.UserCreatedEvent;
 import davenkin.springboot.web.user.domain.event.UserNameUpdatedEvent;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class UserControllerApiTest extends BaseApiTest {
 
     @Test
-    public void shouldCreateUser() {
+    public void should_create_user() throws InterruptedException {
         CreateUserCommand createUserCommand = CreateUserCommand.builder().name("davenkin").build();
         ResponseId responseId = this.webTestClient.post()
                 .uri("/users")
@@ -33,10 +35,11 @@ public class UserControllerApiTest extends BaseApiTest {
 
         UserCreatedEvent userCreatedEvent = latestEventFor(user.getId(), USER_CREATED, UserCreatedEvent.class);
         assertEquals(user.getId(), userCreatedEvent.getArId());
+        Thread.sleep(3000); // sleep some time for events to publish, normally you won't do this
     }
 
     @Test
-    public void shouldUpdateUserName() {
+    public void should_update_user_name() throws InterruptedException {
         String userId = this.userCommandService.createUser("davenkin1");
         UpdateUserNameCommand updateUserNameCommand = UpdateUserNameCommand.builder().name("davenkin2").build();
         this.webTestClient.put()
@@ -50,5 +53,31 @@ public class UserControllerApiTest extends BaseApiTest {
         UserNameUpdatedEvent userNameUpdatedEvent = latestEventFor(user.getId(), USER_NAME_UPDATED, UserNameUpdatedEvent.class);
         assertEquals(updateUserNameCommand.name(), userNameUpdatedEvent.getNewName());
         assertEquals("davenkin1", userNameUpdatedEvent.getOldName());
+        Thread.sleep(3000); // sleep some time for events to publish, normally you won't do this
+    }
+
+    @Test
+    public void update_user_name_should_also_update_creator_name_of_all_departments() throws InterruptedException {
+        String oldUserName = "davenkin1";
+        String newUserName = "davenkin2";
+
+        String userId = this.userCommandService.createUser(oldUserName);
+        CreateDepartmentCommand command = CreateDepartmentCommand.builder()
+                .name("finance")
+                .creator(UserReference.builder().id(userId).name(oldUserName).build())
+                .build();
+        String departmentId = this.departmentCommandService.createDepartment(command);
+        assertEquals(oldUserName, departmentRepository.byId(departmentId).getCreator().name());
+
+        UpdateUserNameCommand updateUserNameCommand = UpdateUserNameCommand.builder().name(newUserName).build();
+        this.webTestClient.put()
+                .uri("/users/{userId}/name", userId)
+                .body(fromValue(updateUserNameCommand))
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful();
+
+        Thread.sleep(3000); // sleep some time for events to publish, normally you won't do this
+        assertEquals(newUserName, departmentRepository.byId(departmentId).getCreator().name());
     }
 }

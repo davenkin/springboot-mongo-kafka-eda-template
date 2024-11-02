@@ -2,7 +2,7 @@ package davenkin.springboot.web.user.command;
 
 import davenkin.springboot.web.user.domain.User;
 import davenkin.springboot.web.user.domain.UserFactory;
-import davenkin.springboot.web.user.infrastructure.UserRepository;
+import davenkin.springboot.web.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

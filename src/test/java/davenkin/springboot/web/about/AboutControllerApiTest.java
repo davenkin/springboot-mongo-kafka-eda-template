@@ -7,9 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AboutControllerApiTest extends BaseApiTest {
 
-
     @Test
-    public void shouldDisplayAboutInfo() {
+    public void should_display_about_info() {
         var result = this.webTestClient
                 .get()
                 .uri("/about")

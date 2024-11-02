@@ -4,9 +4,10 @@ import davenkin.springboot.web.common.domainevent.DomainEvent;
 import davenkin.springboot.web.common.domainevent.DomainEventType;
 import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEvent;
 import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEventDao;
-import davenkin.springboot.web.department.DepartmentApplicationService;
+import davenkin.springboot.web.department.command.DepartmentCommandService;
+import davenkin.springboot.web.department.domain.DepartmentRepository;
 import davenkin.springboot.web.user.command.UserCommandService;
-import davenkin.springboot.web.user.infrastructure.UserRepository;
+import davenkin.springboot.web.user.domain.UserRepository;
 import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,7 +46,10 @@ public abstract class BaseApiTest {
     protected UserCommandService userCommandService;
 
     @Autowired
-    protected DepartmentApplicationService departmentApplicationService;
+    protected DepartmentCommandService departmentCommandService;
+
+    @Autowired
+    protected DepartmentRepository departmentRepository;
 
     protected <T extends DomainEvent> T latestEventFor(String arId, DomainEventType type, Class<T> eventClass) {
         requireNonBlank(arId, "AR ID must not be blank.");

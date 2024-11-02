@@ -1,18 +1,16 @@
-package davenkin.springboot.web.department;
+package davenkin.springboot.web.department.domain;
 
 import davenkin.springboot.web.common.model.AggregateRoot;
+import davenkin.springboot.web.department.domain.event.DepartmentCreatedEvent;
+import davenkin.springboot.web.user.domain.UserReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static davenkin.springboot.web.common.Constants.DEPARTMENT_COLLECTION;
 import static davenkin.springboot.web.common.model.AggregateRootType.DEPARTMENT;
-import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
 import static davenkin.springboot.web.common.utils.SnowflakeIdGenerator.newSnowflakeId;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -24,12 +22,12 @@ import static lombok.AccessLevel.PRIVATE;
 public class Department extends AggregateRoot {
 
     private String name;
-    private List<String> userIds;
+    private UserReference creator;
 
-    public Department(String name) {
+    public Department(String name, UserReference creator) {
         super(newDepartmentId(), DEPARTMENT);
         this.name = name;
-        this.userIds = new ArrayList<>();
+        this.creator = creator;
         this.raiseEvent(new DepartmentCreatedEvent(name, this.getId()));
     }
 
@@ -37,9 +35,4 @@ public class Department extends AggregateRoot {
         return "DPT" + newSnowflakeId();
     }
 
-    public void addUser(String userId) {
-        requireNonBlank(userId, "User ID must not be blank.");
-        this.userIds.add(userId);
-        this.raiseEvent(new DepartmentUserAddedEvent(userId, this.getId()));
-    }
 }

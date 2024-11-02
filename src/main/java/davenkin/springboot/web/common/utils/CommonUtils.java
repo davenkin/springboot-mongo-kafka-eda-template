@@ -1,5 +1,7 @@
 package davenkin.springboot.web.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -35,5 +37,9 @@ public class CommonUtils {
             return (Class<?>) actualTypeArgument;
         }
         return null;
+    }
+
+    public static String joinMongoFields(String... fields) {
+        return StringUtils.join(fields, ".");
     }
 }

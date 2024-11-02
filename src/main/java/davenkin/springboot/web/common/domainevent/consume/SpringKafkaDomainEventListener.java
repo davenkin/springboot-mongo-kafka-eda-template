@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 // Receive domain events from Kafka
 // This is the only place where event consuming touches Kafka, hence the coupling to Kafka is minimised
 
-// Normally we can @NonBuildProfile to disable it for build pipeline
+// Normally we can use @NonBuildProfile to disable it for build pipeline
 // @NonBuildProfile
 @Slf4j
 @Component

@@ -18,15 +18,15 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ConsumingDomainEventDao {
+public class ConsumingDomainEventDao<T extends DomainEvent> {
     private final MongoTemplate mongoTemplate;
 
-    public boolean checkNotConsumed(DomainEvent domainEvent) {
-        Query query = query(where(MONGO_ID).is(domainEvent.getId()));
+    public boolean recordAsConsumed(ConsumingDomainEvent<T> consumingDomainEvent) {
+        Query query = query(where(MONGO_ID).is(consumingDomainEvent.getId()));
 
         Update update = new Update()
-                .setOnInsert(arId, domainEvent.getArId())
-                .setOnInsert(type, domainEvent.getType())
+                .setOnInsert(arId, consumingDomainEvent.getArId())
+                .setOnInsert(type, consumingDomainEvent.getType())
                 .setOnInsert(consumedAt, Instant.now());
 
         UpdateResult result = this.mongoTemplate.update(ConsumingDomainEvent.class)

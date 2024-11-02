@@ -7,5 +7,5 @@ public interface DomainEventHandler<T extends DomainEvent> {
         return false;
     }
 
-    void handle(T domainEvent);
+    void handle(ConsumingDomainEvent<T> consumingDomainEvent);
 }

@@ -12,25 +12,25 @@ import static davenkin.springboot.web.common.CommonUtils.singleParameterizedArgu
 @Component
 @RequiredArgsConstructor
 public class DomainEventConsumer<T extends DomainEvent> {
-    private final Map<String, Class<?>> handlerEventClasseMap = new ConcurrentHashMap<>();
+    private final Map<String, Class<?>> handlerEventClassMap = new ConcurrentHashMap<>();
 
     private final List<DomainEventHandler<T>> handlers;
 
-    public void consume(T event) {
-        this.handlers.stream().filter(handler -> canHandle(handler, event))
+    public void consume(ConsumingDomainEvent<T> consumingDomainEvent) {
+        this.handlers.stream().filter(handler -> canHandle(handler, consumingDomainEvent.getEvent()))
                 .findFirst()
-                .ifPresent(handler -> handler.handle(event));
+                .ifPresent(handler -> handler.handle(consumingDomainEvent));
     }
 
-    private boolean canHandle(DomainEventHandler<T> handler, T event) {
+    private boolean canHandle(DomainEventHandler<T> handler, DomainEvent event) {
         String handlerClassName = handler.getClass().getSimpleName();
 
-        if (!this.handlerEventClasseMap.containsKey(handlerClassName)) {
+        if (!this.handlerEventClassMap.containsKey(handlerClassName)) {
             Class<?> handlerEventClass = singleParameterizedArgumentClassOf(handler.getClass());
-            this.handlerEventClasseMap.put(handlerClassName, handlerEventClass);
+            this.handlerEventClassMap.put(handlerClassName, handlerEventClass);
         }
 
-        Class<?> finalHandlerEventClass = this.handlerEventClasseMap.get(handlerClassName);
+        Class<?> finalHandlerEventClass = this.handlerEventClassMap.get(handlerClassName);
         return finalHandlerEventClass != null && finalHandlerEventClass.isAssignableFrom(event.getClass());
     }
 }

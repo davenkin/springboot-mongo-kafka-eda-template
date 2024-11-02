@@ -1,6 +1,7 @@
 package davenkin.springboot.web.common.domainevent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import davenkin.springboot.web.common.configuration.NonBuildProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaConsumerFactoryCustomizer;
@@ -13,6 +14,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.ExponentialBackOff;
 
+@NonBuildProfile
 @Slf4j
 @Configuration
 public class SpringKafkaDomainEventConfiguration {

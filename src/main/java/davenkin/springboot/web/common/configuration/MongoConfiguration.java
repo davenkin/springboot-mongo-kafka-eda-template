@@ -40,8 +40,8 @@ public class MongoConfiguration {
         return new MongoTransactionManager(mongoDatabaseFactory);
     }
 
-    // Normally we can use @NonBuildProfile to disable it for build pipeline
-    // @NonBuildProfile
+    // Normally we use @NonBuildProfile to disable it for build pipeline
+    @NonBuildProfile
     @Bean(destroyMethod = "stop")
     MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate,
                                                                            TaskExecutor taskExecutor,

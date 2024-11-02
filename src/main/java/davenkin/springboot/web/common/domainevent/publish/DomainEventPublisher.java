@@ -1,5 +1,6 @@
 package davenkin.springboot.web.common.domainevent.publish;
 
+import davenkin.springboot.web.common.configuration.NonBuildProfile;
 import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import static java.time.Instant.now;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
 // Publishes all staged domain events
+@NonBuildProfile
 @Slf4j
 @Component
 @RequiredArgsConstructor

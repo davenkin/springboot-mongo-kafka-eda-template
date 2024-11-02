@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static davenkin.springboot.web.common.utils.CommonUtils.singleParameterizedArgumentClassOf;
 
-// The entry point for handling domain event, will find the correct handler for this event and delegate to it
+// The entry point for handling domain event, it finds the correct handler for this event and delegate to it
 @Component
 @RequiredArgsConstructor
 public class DomainEventConsumer<T> {

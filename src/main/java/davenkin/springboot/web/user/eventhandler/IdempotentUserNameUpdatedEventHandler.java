@@ -10,14 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
  * We are updating DB so need to use AbstractTransactionalDomainEventHandler.
- * Here we are always fetching the latest username from DB to update the department creator name,
- * hence it can be run repeatedly
+ * Here we are always fetching the latest username from DB to update the department creator name, hence it's idempotent
  */
 
 @Slf4j
 //@Component
 @RequiredArgsConstructor
-public class RepeatableUserNameUpdatedEventHandler extends AbstractTransactionalDomainEventHandler<UserNameUpdatedEvent> {
+public class IdempotentUserNameUpdatedEventHandler extends AbstractTransactionalDomainEventHandler<UserNameUpdatedEvent> {
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
 
@@ -31,7 +30,7 @@ public class RepeatableUserNameUpdatedEventHandler extends AbstractTransactional
     }
 
     @Override
-    public boolean isRepeatable() {
-        return true; // This handler can be run repeatedly as we are using the latest username every time the event happens even with out-of-order events
+    public boolean isIdempotent() {
+        return true;
     }
 }

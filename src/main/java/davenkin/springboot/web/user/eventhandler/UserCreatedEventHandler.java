@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-// Sending email should not be called repeatedly, so isRepeatable() should return false
+// Sending email is not idempotent
 // Also it does not involve DB changes, so no need to extends AbstractTransactionalDomainEventHandler
 
 @Slf4j
@@ -21,7 +21,7 @@ public class UserCreatedEventHandler extends AbstractDomainEventHandler<UserCrea
     }
 
     @Override
-    public boolean isRepeatable() {
+    public boolean isIdempotent() {
         return false;
     }
 }

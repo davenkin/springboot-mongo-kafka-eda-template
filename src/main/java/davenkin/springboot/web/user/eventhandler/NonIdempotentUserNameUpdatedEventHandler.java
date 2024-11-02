@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
  * We are updating DB so need to use AbstractTransactionalDomainEventHandler.
  * Here we use the name directly from the domain event,
  * if events run our of order it might result in wrong creator names in department,
- * so isRepeatable() should return false
+ * so isIdempotent() should return false
  */
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class NonRepeatableUserNameUpdatedEventHandler extends AbstractTransactionalDomainEventHandler<UserNameUpdatedEvent> {
+public class NonIdempotentUserNameUpdatedEventHandler extends AbstractTransactionalDomainEventHandler<UserNameUpdatedEvent> {
     private final DepartmentRepository departmentRepository;
 
     // Update creator name for all departments created by this user
@@ -27,7 +27,7 @@ public class NonRepeatableUserNameUpdatedEventHandler extends AbstractTransactio
     }
 
     @Override
-    public boolean isRepeatable() {
+    public boolean isIdempotent() {
         return false;
     }
 }

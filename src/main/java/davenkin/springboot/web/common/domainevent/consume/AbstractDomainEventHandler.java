@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // 3. If the event is not consumed already, handle the event and return;
 // 4. If the event is already consumed, do nothing;
 // For all the above handling paths, the event will also be recorded in DB as consumed to avoid deduplicated handling
+// Best practices is to stick to AbstractTransactionalDomainEventHandler and idempotent as mush as possible
 @Slf4j
 public abstract class AbstractDomainEventHandler<T extends DomainEvent> implements DomainEventHandler<T> {
 
@@ -18,13 +19,6 @@ public abstract class AbstractDomainEventHandler<T extends DomainEvent> implemen
 
     @Override
     public void handle(ConsumingDomainEvent<T> consumingDomainEvent) {
-        if (consumingDomainEvent.isRetry()) {
-            log.warn("Consuming retried domain event[{}].", consumingDomainEvent.getId());
-            this.consumingDomainEventDao.recordAsConsumed(consumingDomainEvent);
-            doHandle(consumingDomainEvent.getEvent());
-            return;
-        }
-
         if (this.isIdempotent() || this.consumingDomainEventDao.recordAsConsumed(consumingDomainEvent)) {
             doHandle(consumingDomainEvent.getEvent());
         } else {

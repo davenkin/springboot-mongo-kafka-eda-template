@@ -14,8 +14,8 @@ import static davenkin.springboot.web.common.Constants.CONSUMING_DOMAIN_EVENT_CO
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
-// Wrapper for DomainEvent when consuming, adding information like is the event for retry
-// Can add more information if required, but should not be coupled to a specific messaging middleware
+// Wrapper for DomainEvent when consuming
+// Can add more information(such as if the event is redelivered etc.) if required, but should not be coupled to a specific messaging middleware
 @Getter
 @FieldNameConstants
 @NoArgsConstructor(access = PRIVATE)
@@ -29,15 +29,12 @@ public class ConsumingDomainEvent<T extends DomainEvent> {
 
     private T event;
 
-    private boolean isRetry;
-
-    public ConsumingDomainEvent(T event, boolean isRetry) {
+    public ConsumingDomainEvent(T event) {
         requireNonNull(event, "Domain event must not be null.");
         this.id = event.getId();
         this.arId = event.getArId();
         this.type = event.getType();
         this.consumedAt = Instant.now();
         this.event = event;
-        this.isRetry = isRetry;
     }
 }

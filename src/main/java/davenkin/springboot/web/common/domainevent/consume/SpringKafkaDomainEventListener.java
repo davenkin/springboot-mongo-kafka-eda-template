@@ -21,8 +21,6 @@ public class SpringKafkaDomainEventListener {
             groupId = "changeme",
             topics = {"user_domain_event", "department_domain_event"})
     public void listen(DomainEvent event) {
-        boolean isRetry = false; // You can add logic to check if the event is for retry, for example by checking the retry topic name
-        ConsumingDomainEvent<DomainEvent> consumingDomainEvent = new ConsumingDomainEvent<>(event, isRetry);
-        this.domainEventConsumer.consume(consumingDomainEvent);
+        this.domainEventConsumer.consume(new ConsumingDomainEvent<>(event));
     }
 }

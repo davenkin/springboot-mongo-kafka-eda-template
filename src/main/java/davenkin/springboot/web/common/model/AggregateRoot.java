@@ -15,6 +15,7 @@ import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 
+// Base class for all aggregate roots
 @Getter
 // The no arg constructor is used by Jackson and Spring Data etc. to create objects
 @NoArgsConstructor(access = PROTECTED)

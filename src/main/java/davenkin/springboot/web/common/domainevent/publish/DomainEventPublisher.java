@@ -17,6 +17,7 @@ import static java.time.Duration.ofMinutes;
 import static java.time.Instant.now;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
+// Publishes all staged domain events
 @Slf4j
 @Component
 @RequiredArgsConstructor

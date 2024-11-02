@@ -17,6 +17,8 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
+// Base class for all repositories
+
 @SuppressWarnings({"unchecked"})
 public abstract class MongoBaseRepository<AR extends AggregateRoot> {
     private final Map<String, Class<?>> repositoryArClassMap = new ConcurrentHashMap<>();

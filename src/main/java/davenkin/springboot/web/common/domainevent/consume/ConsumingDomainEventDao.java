@@ -16,6 +16,7 @@ import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomain
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+// Upon consuming, record the event in DB to avoid duplicated event handling
 @Slf4j
 @Component
 @RequiredArgsConstructor

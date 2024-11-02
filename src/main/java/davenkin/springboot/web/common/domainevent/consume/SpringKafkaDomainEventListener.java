@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+// Receive domain events from Kafka
+// This is the only place where event consuming touches Kafka, hence the coupling to Kafka is minimised
 @NonBuildProfile
 @Slf4j
 @Component

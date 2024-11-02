@@ -13,7 +13,7 @@ import static davenkin.springboot.web.common.Constants.PUBLISHING_DOMAIN_EVENT_C
 import static davenkin.springboot.web.common.domainevent.publish.DomainEventPublishStatus.CREATED;
 import static lombok.AccessLevel.PRIVATE;
 
-
+// Wrapper for DomainEvent for publishing, added status and publishCount to track the publishing process
 @Getter
 @FieldNameConstants
 @NoArgsConstructor(access = PRIVATE)

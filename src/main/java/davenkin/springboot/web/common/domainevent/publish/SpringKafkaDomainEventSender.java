@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
+// Send domain events to Kafka
+// This is the only place where event publishing touches Kafka, hence the coupling to Kafka is minimised
 @Slf4j
 @Component
 @RequiredArgsConstructor

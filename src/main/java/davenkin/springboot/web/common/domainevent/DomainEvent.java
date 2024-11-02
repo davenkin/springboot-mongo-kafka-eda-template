@@ -1,7 +1,8 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import davenkin.springboot.web.common.model.AggregateRootType;
 import davenkin.springboot.web.department.DepartmentCreatedEvent;
 import davenkin.springboot.web.department.DepartmentUserAddedEvent;
 import davenkin.springboot.web.user.domain.event.UserCreatedEvent;
@@ -12,8 +13,8 @@ import lombok.experimental.FieldNameConstants;
 
 import java.time.Instant;
 
-import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
-import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
+import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
+import static davenkin.springboot.web.common.utils.SnowflakeIdGenerator.newSnowflakeId;
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
 

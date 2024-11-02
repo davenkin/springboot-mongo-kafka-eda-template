@@ -1,6 +1,6 @@
 package davenkin.springboot.web.department;
 
-import davenkin.springboot.web.common.AggregateRoot;
+import davenkin.springboot.web.common.model.AggregateRoot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
@@ -10,10 +10,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-import static davenkin.springboot.web.common.AggregateRootType.DEPARTMENT;
-import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
 import static davenkin.springboot.web.common.Constants.DEPARTMENT_COLLECTION;
-import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
+import static davenkin.springboot.web.common.model.AggregateRootType.DEPARTMENT;
+import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
+import static davenkin.springboot.web.common.utils.SnowflakeIdGenerator.newSnowflakeId;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter

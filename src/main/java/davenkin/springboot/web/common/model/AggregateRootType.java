@@ -1,4 +1,4 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.model;
 
 public enum AggregateRootType {
     USER,

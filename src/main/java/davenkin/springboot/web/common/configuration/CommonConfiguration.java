@@ -1,10 +1,13 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.configuration;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import com.mongodb.client.model.changestream.OperationType;
+import davenkin.springboot.web.common.domainevent.DomainEvent;
+import davenkin.springboot.web.common.domainevent.publish.DomainEventPublisher;
+import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEvent;
 import net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor;
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.core.LockingTaskExecutor;

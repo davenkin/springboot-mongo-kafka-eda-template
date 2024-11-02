@@ -1,9 +1,9 @@
 package davenkin.springboot.web;
 
-import davenkin.springboot.web.common.DomainEvent;
-import davenkin.springboot.web.common.DomainEventType;
-import davenkin.springboot.web.common.PublishingDomainEvent;
-import davenkin.springboot.web.common.PublishingDomainEventDao;
+import davenkin.springboot.web.common.domainevent.DomainEvent;
+import davenkin.springboot.web.common.domainevent.DomainEventType;
+import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEvent;
+import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEventDao;
 import davenkin.springboot.web.department.DepartmentApplicationService;
 import davenkin.springboot.web.user.command.UserCommandService;
 import davenkin.springboot.web.user.infrastructure.UserRepository;
@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
+import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;

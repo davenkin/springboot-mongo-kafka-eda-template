@@ -1,5 +1,7 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.consume;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
+import davenkin.springboot.web.common.domainevent.DomainEventType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;

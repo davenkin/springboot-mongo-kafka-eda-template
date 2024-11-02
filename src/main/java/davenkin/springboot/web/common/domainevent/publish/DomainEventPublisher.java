@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.publish;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.LockConfiguration;

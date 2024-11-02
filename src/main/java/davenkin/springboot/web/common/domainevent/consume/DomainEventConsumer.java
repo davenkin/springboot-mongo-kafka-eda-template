@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.consume;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static davenkin.springboot.web.common.CommonUtils.singleParameterizedArgumentClassOf;
+import static davenkin.springboot.web.common.utils.CommonUtils.singleParameterizedArgumentClassOf;
 
 @Component
 @RequiredArgsConstructor

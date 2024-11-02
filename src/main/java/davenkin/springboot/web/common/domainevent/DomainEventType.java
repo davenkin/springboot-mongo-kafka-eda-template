@@ -1,7 +1,9 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent;
 
-import static davenkin.springboot.web.common.AggregateRootType.DEPARTMENT;
-import static davenkin.springboot.web.common.AggregateRootType.USER;
+import davenkin.springboot.web.common.model.AggregateRootType;
+
+import static davenkin.springboot.web.common.model.AggregateRootType.DEPARTMENT;
+import static davenkin.springboot.web.common.model.AggregateRootType.USER;
 
 public enum DomainEventType {
     USER_CREATED(USER),

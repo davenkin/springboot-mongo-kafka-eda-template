@@ -1,11 +1,11 @@
 package davenkin.springboot.web.department;
 
-import davenkin.springboot.web.common.DomainEvent;
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.TypeAlias;
 
-import static davenkin.springboot.web.common.DomainEventType.DEPARTMENT_USER_ADDED;
+import static davenkin.springboot.web.common.domainevent.DomainEventType.DEPARTMENT_USER_ADDED;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter

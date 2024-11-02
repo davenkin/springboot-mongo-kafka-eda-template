@@ -1,6 +1,7 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.consume;
 
 import com.mongodb.client.result.UpdateResult;
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 
 import static davenkin.springboot.web.common.Constants.MONGO_ID;
-import static davenkin.springboot.web.common.ConsumingDomainEvent.Fields.*;
+import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 

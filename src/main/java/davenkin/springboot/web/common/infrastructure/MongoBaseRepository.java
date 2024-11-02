@@ -1,5 +1,8 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.infrastructure;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
+import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEventDao;
+import davenkin.springboot.web.common.model.AggregateRoot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
-import static davenkin.springboot.web.common.CommonUtils.singleParameterizedArgumentClassOf;
+import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
+import static davenkin.springboot.web.common.utils.CommonUtils.singleParameterizedArgumentClassOf;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;

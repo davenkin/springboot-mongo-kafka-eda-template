@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.user.eventhandler;
 
+import davenkin.springboot.web.common.domainevent.consume.AbstractDomainEventHandler;
 import davenkin.springboot.web.user.domain.event.UserNameUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

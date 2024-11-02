@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.model;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Transient;
@@ -9,7 +10,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static davenkin.springboot.web.common.CommonUtils.requireNonBlank;
+import static davenkin.springboot.web.common.utils.CommonUtils.requireNonBlank;
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;

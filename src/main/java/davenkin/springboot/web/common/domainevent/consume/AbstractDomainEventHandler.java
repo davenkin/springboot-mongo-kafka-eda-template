@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.consume;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

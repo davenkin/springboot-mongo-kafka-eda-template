@@ -1,4 +1,4 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.publish;
 
 public enum DomainEventPublishStatus {
     CREATED,

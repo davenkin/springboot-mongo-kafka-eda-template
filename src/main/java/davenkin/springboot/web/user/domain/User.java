@@ -1,6 +1,6 @@
 package davenkin.springboot.web.user.domain;
 
-import davenkin.springboot.web.common.AggregateRoot;
+import davenkin.springboot.web.common.model.AggregateRoot;
 import davenkin.springboot.web.user.domain.event.UserCreatedEvent;
 import davenkin.springboot.web.user.domain.event.UserNameUpdatedEvent;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import static davenkin.springboot.web.common.AggregateRootType.USER;
 import static davenkin.springboot.web.common.Constants.USER_COLLECTION;
-import static davenkin.springboot.web.common.SnowflakeIdGenerator.newSnowflakeId;
+import static davenkin.springboot.web.common.model.AggregateRootType.USER;
+import static davenkin.springboot.web.common.utils.SnowflakeIdGenerator.newSnowflakeId;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter

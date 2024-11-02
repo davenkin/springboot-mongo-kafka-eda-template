@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.publish;
 
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 import static davenkin.springboot.web.common.Constants.PUBLISHING_DOMAIN_EVENT_COLLECTION;
-import static davenkin.springboot.web.common.DomainEventPublishStatus.CREATED;
+import static davenkin.springboot.web.common.domainevent.publish.DomainEventPublishStatus.CREATED;
 import static lombok.AccessLevel.PRIVATE;
 
 

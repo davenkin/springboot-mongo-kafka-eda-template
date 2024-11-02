@@ -1,4 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.domainevent.publish;
+
+import davenkin.springboot.web.common.domainevent.DomainEvent;
 
 import java.util.concurrent.CompletableFuture;
 

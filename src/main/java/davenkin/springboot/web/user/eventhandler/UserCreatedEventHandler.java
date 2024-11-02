@@ -1,5 +1,6 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.user.eventhandler;
 
+import davenkin.springboot.web.common.domainevent.consume.AbstractTransactionalDomainEventHandler;
 import davenkin.springboot.web.user.domain.User;
 import davenkin.springboot.web.user.domain.event.UserCreatedEvent;
 import davenkin.springboot.web.user.infrastructure.UserRepository;

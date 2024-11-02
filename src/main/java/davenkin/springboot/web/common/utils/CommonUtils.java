@@ -1,4 +1,4 @@
-package davenkin.springboot.web.common;
+package davenkin.springboot.web.common.utils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

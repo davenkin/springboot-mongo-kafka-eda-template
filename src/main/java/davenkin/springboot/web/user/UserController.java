@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Validated
@@ -30,5 +32,12 @@ public class UserController {
     public void updateUserName(@PathVariable("userId") @NotBlank String userId,
                                @RequestBody @Valid UpdateUserNameCommand updateUserNameCommand) {
         this.userCommandService.updateUserName(userId, updateUserNameCommand.name());
+    }
+
+    // just for testing
+    @GetMapping
+    public ResponseId createUserForTest() {
+        String id = this.userCommandService.createUser(LocalDateTime.now().toString());
+        return new ResponseId(id);
     }
 }

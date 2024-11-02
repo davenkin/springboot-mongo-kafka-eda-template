@@ -64,7 +64,7 @@ public class UserControllerApiTest extends BaseApiTest {
         String userId = this.userCommandService.createUser(oldUserName);
         CreateDepartmentCommand command = CreateDepartmentCommand.builder()
                 .name("finance")
-                .creator(UserReference.builder().id(userId).name(oldUserName).build())
+                .creator(new UserReference(userId, oldUserName))
                 .build();
         String departmentId = this.departmentCommandService.createDepartment(command);
         assertEquals(oldUserName, departmentRepository.byId(departmentId).getCreator().name());

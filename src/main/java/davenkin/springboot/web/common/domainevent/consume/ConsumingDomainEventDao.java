@@ -23,6 +23,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class ConsumingDomainEventDao<T extends DomainEvent> {
     private final MongoTemplate mongoTemplate;
 
+    // return true means this event has never been consumed before
     public boolean recordAsConsumed(ConsumingDomainEvent<T> consumingDomainEvent) {
         Query query = query(where(MONGO_ID).is(consumingDomainEvent.getId()));
 

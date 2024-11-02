@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryC
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.ExponentialBackOff;
@@ -32,15 +33,20 @@ public class SpringKafkaDomainEventConfiguration {
     @Bean
     public DefaultKafkaConsumerFactoryCustomizer defaultKafkaConsumerFactoryCustomizer(ObjectMapper objectMapper) {
         return producerFactory -> {
-            // don't use type info in Kafka headers for deserialization, but the uses the Jackson annotations(@JsonTypeInfo) on DomainEvent itself
-            producerFactory.setValueDeserializer((Deserializer) new JsonDeserializer<>(DomainEvent.class, objectMapper, false));
+            // don't use type info in Kafka headers for deserialization, but the uses the Jackson annotations(@JsonTypeInfo) on DomainEvent itself to decrease coupling to Kafka
+            // also as by default Kafka used full class name in the header, not using this make our code more refactor friendly as we can not freely change the event's package
+            Deserializer valueDeserializer = new JsonDeserializer<>(DomainEvent.class, objectMapper, false);
+
+            //we must wrap the JsonDeserializer into an ErrorHandlingDeserializer, otherwise deserialization error will result in endless message retry
+            ErrorHandlingDeserializer deserializer = new ErrorHandlingDeserializer(valueDeserializer);
+            producerFactory.setValueDeserializer(deserializer);
         };
     }
 
     @Bean
     public DefaultErrorHandler kafkaErrorHandler() {
         ExponentialBackOff exponentialBackOff = new ExponentialBackOff(1000L, 2);
-        exponentialBackOff.setMaxAttempts(2); // the message will be delivered 2 + 1 times
+        exponentialBackOff.setMaxAttempts(2); // the message will be delivered 2 + 1 = 3 times
         return new DefaultErrorHandler(exponentialBackOff);
     }
 }

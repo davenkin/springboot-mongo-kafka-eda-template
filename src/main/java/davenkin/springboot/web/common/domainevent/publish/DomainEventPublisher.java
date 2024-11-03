@@ -63,7 +63,7 @@ public class DomainEventPublisher {
                                 this.publishingDomainEventDao.successPublish(eventId);
                             } else {
                                 this.publishingDomainEventDao.failPublish(eventId);
-                                log.error("Error publishing domain event [{}].", eventId);
+                                log.error("Error publishing domain event [{}]:", eventId, ex);
                             }
                         }, taskExecutor);
                 futures.add(future);

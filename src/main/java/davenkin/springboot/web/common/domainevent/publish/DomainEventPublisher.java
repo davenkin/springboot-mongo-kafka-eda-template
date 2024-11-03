@@ -1,6 +1,6 @@
 package davenkin.springboot.web.common.domainevent.publish;
 
-import davenkin.springboot.web.common.configuration.NonBuildProfile;
+import davenkin.springboot.web.common.configuration.profile.NonBuildProfile;
 import davenkin.springboot.web.common.domainevent.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

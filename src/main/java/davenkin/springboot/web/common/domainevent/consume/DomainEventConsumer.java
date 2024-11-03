@@ -1,5 +1,6 @@
 package davenkin.springboot.web.common.domainevent.consume;
 
+import davenkin.springboot.web.common.configuration.profile.NonBuildProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static davenkin.springboot.web.common.utils.CommonUtils.singleParameterizedArgumentClassOf;
 
 // The entry point for handling domain event, it finds the correct handler for this event and delegate to it
+@NonBuildProfile
 @Component
 @RequiredArgsConstructor
 public class DomainEventConsumer<T> {

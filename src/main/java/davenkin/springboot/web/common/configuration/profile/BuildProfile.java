@@ -1,4 +1,4 @@
-package davenkin.springboot.web.common.configuration;
+package davenkin.springboot.web.common.configuration.profile;
 
 import org.springframework.context.annotation.Profile;
 

@@ -1,6 +1,6 @@
 package davenkin.springboot.web;
 
-import davenkin.springboot.web.common.configuration.BuildProfile;
+import davenkin.springboot.web.common.configuration.profile.BuildProfile;
 import davenkin.springboot.web.common.domainevent.DomainEvent;
 import davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent;
 import davenkin.springboot.web.common.domainevent.consume.DomainEventConsumer;

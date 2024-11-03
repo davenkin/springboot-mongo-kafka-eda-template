@@ -1,23 +1,54 @@
 package davenkin.springboot.web.common.domainevent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import davenkin.springboot.web.common.configuration.NonBuildProfile;
+import com.mongodb.client.model.changestream.ChangeStreamDocument;
+import com.mongodb.client.model.changestream.OperationType;
+import davenkin.springboot.web.common.configuration.profile.NonBuildProfile;
+import davenkin.springboot.web.common.domainevent.publish.DomainEventPublisher;
+import davenkin.springboot.web.common.domainevent.publish.PublishingDomainEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Deserializer;
+import org.bson.Document;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaConsumerFactoryCustomizer;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
+import org.springframework.data.mongodb.core.messaging.DefaultMessageListenerContainer;
+import org.springframework.data.mongodb.core.messaging.MessageListener;
+import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.ExponentialBackOff;
 
+import static davenkin.springboot.web.common.Constants.PUBLISHING_DOMAIN_EVENT_COLLECTION;
+
 @NonBuildProfile
 @Slf4j
 @Configuration
-public class SpringKafkaDomainEventConfiguration {
+public class DomainEventConfiguration {
+
+    @Bean(destroyMethod = "stop")
+    MessageListenerContainer mongoDomainEventChangeStreamListenerContainer(MongoTemplate mongoTemplate,
+                                                                           TaskExecutor taskExecutor,
+                                                                           DomainEventPublisher domainEventPublisher) {
+        MessageListenerContainer container = new DefaultMessageListenerContainer(mongoTemplate, taskExecutor);
+
+        // Get notification on DomainEvent insert and publish staged domain events
+        container.register(ChangeStreamRequest.builder(
+                        (MessageListener<ChangeStreamDocument<Document>, PublishingDomainEvent>) message -> {
+                            domainEventPublisher.publishStagedDomainEvents();
+                        })
+                .collection(PUBLISHING_DOMAIN_EVENT_COLLECTION)
+                .filter(new Document("$match", new Document("operationType", OperationType.INSERT.getValue())))
+                .build(), PublishingDomainEvent.class);
+        container.start();
+        return container;
+    }
 
     @Bean
     public DefaultKafkaProducerFactoryCustomizer defaultKafkaProducerFactoryCustomizer(ObjectMapper objectMapper) {

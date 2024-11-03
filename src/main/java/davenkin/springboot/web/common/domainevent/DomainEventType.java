@@ -8,8 +8,7 @@ import static davenkin.springboot.web.common.model.AggregateRootType.USER;
 public enum DomainEventType {
     USER_CREATED(USER),
     USER_NAME_UPDATED(USER),
-    DEPARTMENT_CREATED(DEPARTMENT),
-    DEPARTMENT_USER_ADDED(DEPARTMENT);
+    DEPARTMENT_CREATED(DEPARTMENT);
 
     private final AggregateRootType arType;
 

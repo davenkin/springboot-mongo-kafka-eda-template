@@ -80,6 +80,7 @@ public class DomainEventConfiguration {
         };
     }
 
+    // The DefaultErrorHandler retries 3 times upon exceptions, after that if exception persists then move the message to DLT.
     @Bean
     public DefaultErrorHandler kafkaErrorHandler(KafkaTemplate<String, Object> kafkaTemplate) {
         ExponentialBackOff exponentialBackOff = new ExponentialBackOff(1000L, 2);

@@ -19,6 +19,9 @@ import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
 import org.springframework.data.mongodb.core.messaging.DefaultMessageListenerContainer;
 import org.springframework.data.mongodb.core.messaging.MessageListener;
 import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
+import org.springframework.kafka.annotation.EnableKafkaRetryTopic;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
@@ -30,6 +33,7 @@ import static davenkin.springboot.web.common.Constants.PUBLISHING_DOMAIN_EVENT_C
 @NonBuildProfile
 @Slf4j
 @Configuration
+@EnableKafkaRetryTopic
 public class DomainEventConfiguration {
 
     @Bean(destroyMethod = "stop")
@@ -77,9 +81,10 @@ public class DomainEventConfiguration {
     }
 
     @Bean
-    public DefaultErrorHandler kafkaErrorHandler() {
+    public DefaultErrorHandler kafkaErrorHandler(KafkaTemplate<String, Object> kafkaTemplate) {
         ExponentialBackOff exponentialBackOff = new ExponentialBackOff(1000L, 2);
         exponentialBackOff.setMaxAttempts(2); // the message will be delivered 2 + 1 = 3 times
-        return new DefaultErrorHandler(exponentialBackOff);
+        DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
+        return new DefaultErrorHandler(recoverer, exponentialBackOff);
     }
 }

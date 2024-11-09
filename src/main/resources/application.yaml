@@ -7,3 +7,10 @@ spring:
 #      enable-auto-commit: false
 #    listener:
 #      ack-mode: batch
+
+
+mongock:
+  migration-scan-package: davenkin.springboot.web.common.migration
+  transactional: true
+  lock-repository-name: mongock-lock
+  migration-repository-name: mongock-change-log

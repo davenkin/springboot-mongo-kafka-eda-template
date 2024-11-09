@@ -1,5 +1,6 @@
 package davenkin.springboot.web.common.configuration;
 
+import io.mongock.runner.springboot.EnableMongock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
 @Slf4j
+@EnableMongock
 @Configuration
 public class MongoConfiguration {
 

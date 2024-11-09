@@ -21,6 +21,18 @@
         <java.version>17</java.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.mongock</groupId>
+                <artifactId>mongock-bom</artifactId>
+                <version>5.5.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,6 +80,16 @@
             <groupId>net.javacrumbs.shedlock</groupId>
             <artifactId>shedlock-provider-mongo</artifactId>
             <version>5.16.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.mongock</groupId>
+            <artifactId>mongock-springboot-v3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.mongock</groupId>
+            <artifactId>mongodb-springdata-v4-driver</artifactId>
         </dependency>
 
         <dependency>

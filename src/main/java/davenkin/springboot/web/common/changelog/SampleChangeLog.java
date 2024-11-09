@@ -6,8 +6,6 @@ import io.mongock.api.annotations.Execution;
 import io.mongock.api.annotations.RollbackExecution;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.time.Instant;
-
 @ChangeUnit(id = "sampleChangeUnit", order = "001", author = "davenkin")
 public class SampleChangeLog {
 

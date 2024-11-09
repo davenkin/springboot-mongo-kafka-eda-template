@@ -10,6 +10,7 @@ spring:
 
 
 mongock:
+  enabled: true
   migration-scan-package: davenkin.springboot.web.common.migration
   transactional: true
   lock-repository-name: mongock-lock

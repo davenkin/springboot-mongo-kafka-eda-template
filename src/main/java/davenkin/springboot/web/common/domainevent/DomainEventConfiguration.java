@@ -42,7 +42,7 @@ public class DomainEventConfiguration {
                                                                            DomainEventPublisher domainEventPublisher) {
         MessageListenerContainer container = new DefaultMessageListenerContainer(mongoTemplate, taskExecutor);
 
-        // Get notification on DomainEvent insert and publish staged domain events
+        // Get notification on DomainEvent insertion, then publish staged domain events
         container.register(ChangeStreamRequest.builder(
                         (MessageListener<ChangeStreamDocument<Document>, PublishingDomainEvent>) message -> {
                             domainEventPublisher.publishStagedDomainEvents();

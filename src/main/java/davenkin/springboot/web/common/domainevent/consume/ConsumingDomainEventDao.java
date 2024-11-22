@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
-import static davenkin.springboot.web.common.Constants.MONGO_ID;
-import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.consumedAt;
-import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.type;
+import static davenkin.springboot.web.common.domainevent.consume.ConsumingDomainEvent.Fields.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -24,8 +22,8 @@ public class ConsumingDomainEventDao<T> {
     private final MongoTemplate mongoTemplate;
 
     // return true means this event has never been consumed before
-    public boolean recordAsConsumed(ConsumingDomainEvent<T> consumingDomainEvent) {
-        Query query = query(where(MONGO_ID).is(consumingDomainEvent.getId()));
+    public boolean recordAsConsumed(ConsumingDomainEvent<T> consumingDomainEvent, String handlerName) {
+        Query query = query(where(eventId).is(consumingDomainEvent.getEventId()).and(handlerName).is(handlerName));
 
         Update update = new Update()
                 .setOnInsert(type, consumingDomainEvent.getType())

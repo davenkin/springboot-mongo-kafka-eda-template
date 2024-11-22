@@ -6,5 +6,9 @@ public interface DomainEventHandler<T> {
         return false;
     }
 
+    default int order() {
+        return 100;
+    }
+
     void handle(ConsumingDomainEvent<T> consumingDomainEvent);
 }

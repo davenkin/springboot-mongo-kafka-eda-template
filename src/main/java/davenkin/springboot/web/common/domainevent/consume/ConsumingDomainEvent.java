@@ -21,8 +21,12 @@ import static lombok.AccessLevel.PRIVATE;
 @Document(CONSUMING_DOMAIN_EVENT_COLLECTION)
 @TypeAlias("CONSUMING_DOMAIN_EVENT")
 public class ConsumingDomainEvent<T> {
-    private String id;
+
+    private String eventId;
+
     private String type;
+
+    private String handlerName;
     private Instant consumedAt;
 
     private T event;
@@ -32,7 +36,7 @@ public class ConsumingDomainEvent<T> {
         requireNonBlank(eventType, "Event type must not be blank.");
         requireNonNull(event, "Event must not be null.");
 
-        this.id = eventId;
+        this.eventId = eventId;
         this.type = eventType;
         this.consumedAt = Instant.now();
         this.event = event;

@@ -36,7 +36,7 @@ public class DomainEventConsumer<T> {
     }
 
     private boolean canHandle(DomainEventHandler<T> handler, T event) {
-        String handlerClassName = handler.getClass().getSimpleName();
+        String handlerClassName = handler.getClass().getName();
 
         if (!this.handlerEventClassMap.containsKey(handlerClassName)) {
             Class<?> handlerEventClass = singleParameterizedArgumentClassOf(handler.getClass());

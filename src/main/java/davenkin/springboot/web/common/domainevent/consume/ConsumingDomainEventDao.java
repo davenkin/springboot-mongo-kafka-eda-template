@@ -23,7 +23,7 @@ public class ConsumingDomainEventDao<T> {
 
     // return true means this event has never been consumed before
     public boolean recordAsConsumed(ConsumingDomainEvent<T> consumingDomainEvent, String handlerName) {
-        Query query = query(where(eventId).is(consumingDomainEvent.getEventId()).and(handlerName).is(handlerName));
+        Query query = query(where(eventId).is(consumingDomainEvent.getEventId()).and(ConsumingDomainEvent.Fields.handlerName).is(handlerName));
 
         Update update = new Update()
                 .setOnInsert(type, consumingDomainEvent.getType())
